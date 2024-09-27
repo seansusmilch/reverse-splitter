@@ -2,7 +2,9 @@ from .common import get_real_url
 import requests
 import requests_random_user_agent # type: ignore
 from bs4 import BeautifulSoup
+from . import logger
 
+log = logger.setup_logger('PressRelease')
 
 def find_press_release(query:str):
     session = requests.Session()
@@ -13,7 +15,7 @@ def find_press_release(query:str):
     for result in search_results:
         if 'news.search.yahoo.com' in result['href']:
             continue
-        print(result['href'])
+        log.debug(f'Found press release: {result.text}')
         real_url = get_real_url(result['href'])
         res = session.get(real_url)
         soup = BeautifulSoup(res.text, 'html.parser')

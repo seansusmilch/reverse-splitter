@@ -9,7 +9,7 @@ def scrape_hedgefollow():
     context = browser.new_context()
     page = context.new_page()
 
-    page.goto('https://hedgefollow.com/upcoming-stock-splits.php')
+    page.goto('https://hedgefollow.com/upcoming-stock-splits.php', wait_until='domcontentloaded')
 
     # Get the table
     table = page.query_selector('table#latest_splits')
