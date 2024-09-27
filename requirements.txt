@@ -1,7 +1,10 @@
-playwright==1.47.0
-google-generativeai==0.8.2
-pocketbase==0.12.1
-apscheduler==3.10.4
-Jinja2==3.1.4
-requests-random-user-agent==2023.2.15
+APScheduler==3.10.4
 beautifulsoup4==4.12.3
+Jinja2==3.1.4
+playwright==1.47.0
+pocketbase==0.12.1
+protobuf==5.28.2
+Requests==2.32.3
+requests_random_user_agent==2023.2.15
+reverse_splitter==1.0
+urllib3==2.2.3
