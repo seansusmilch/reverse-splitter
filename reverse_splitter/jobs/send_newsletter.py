@@ -31,7 +31,9 @@ def send_newsletter_job():
     for subscriber in subscribers:
         name = subscriber.name
         email = subscriber.email
-        hydrated_content = template.render(name=name)
+        unsubscribe_link=f'https://reverse-splitter.vercel.app/unsubscribe?code={subscriber.id}'
+        
+        hydrated_content = template.render(name=name, unsubscribe_link=unsubscribe_link)
         
         print('Sending email to', name, email)
         emailer.send_html_email(email, subject, hydrated_content)
