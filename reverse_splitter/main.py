@@ -9,6 +9,7 @@ def main():
     scheduler.scheduler.start()
     log.info(f'Next research job scheduled for {jobs[0].next_run_time}')
     log.info(f'Next newsletter job scheduled for {jobs[1].next_run_time}')
+    log.info(f'Next welcome job scheduled for {jobs[2].next_run_time}')
     
     try:
         log.debug('Entering infinite loop')
