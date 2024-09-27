@@ -33,7 +33,7 @@ if __name__ == '__main__':
         # This is here to simulate application activity (which keeps the main thread alive).
         print('Press Ctrl+C to exit')
         while True:
-            time.sleep(2)
+            time.sleep(10)
     except (KeyboardInterrupt, SystemExit):
         # Not strictly necessary if daemonic mode is enabled but should be done if possible
         scheduler.shutdown()

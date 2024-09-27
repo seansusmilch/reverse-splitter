@@ -1,5 +1,6 @@
 import jobs.scheduler as scheduler
 import bin.logger as logger
+import time
 
 log = logger.setup_logger('Main')
 
@@ -13,7 +14,7 @@ def main():
         log.debug('Entering infinite loop')
         log.debug('Press Ctrl+C to exit')
         while True:
-            pass
+            time.sleep(10)
     except KeyboardInterrupt:
         log.debug('Shutting down...')
         scheduler.scheduler.shutdown()
