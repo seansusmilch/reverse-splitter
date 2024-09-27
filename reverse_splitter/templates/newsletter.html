@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ date }}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+        .container {
+            font-family: 'Poppins', sans-serif;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .header {
+            background-color: #f8f8f8;
+            padding: 20px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .border {
+            border: 1px solid #f1f1f1;
+            padding: 10px;
+        }
+
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .flex-col {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+    </style>
+</head>
+
+<body class="container">
+    <h1 class="header center">Reverse Splitter Newsletter</h1>
+    <h2 class="center">September 26, 2024</h2>
+
+    <p>Dear {{name}},</p>
+
+    <p>Thank you for subscribing to the Reverse Splitter Newsletter. We are excited to share with you the latest news
+        and updates from our team.</p>
+
+
+    <h2>Upcoming Splits</h2>
+    <div class="flex-col">
+        {% for split in splits %}
+        <div class="card border">
+            <h3>{{ split.stock }} 💰</h3>
+            <table>
+                <tr>
+                    <td><b>Company Name</b></td>
+                    <td>{{ split.company_name }}</td>
+                </tr>
+                <tr>
+                    <td><b>Effective Date</b></td>
+                    <td>{{ split.effective_date }}</td>
+                </tr>
+                <tr>
+                    <td><b>Stock Exchange</b></td>
+                    <td>{{ split.exchange }}</td>
+                </tr>
+            </table>
+            <h4>Rounding? ✨</h4>
+            <p><em>{{ split.summary }}</em></p>
+            <a href="{{ split.press_release }}">Press Release</a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <a href="{{ unsubscribe_link }}">Unsubscribe</a>
+
+</body>
+
+</html>
