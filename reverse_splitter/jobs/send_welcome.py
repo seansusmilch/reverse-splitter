@@ -20,7 +20,6 @@ def send_welcome_job():
     
     template = env.get_template('welcome.html')
     for sub in new_subscribers:
-        if 'seantsusmilch' not in sub.email: continue
         name = sub.name
         email = sub.email
         unsubscribe_link=f'https://reverse-splitter.vercel.app/unsubscribe?code={sub.id}'
