@@ -8,6 +8,12 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
+        /* * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        } */
+
         .container {
             font-family: 'Poppins', sans-serif;
             width: 100%;
@@ -27,7 +33,7 @@
         }
 
         .border {
-            border: 1px solid #f1f1f1;
+            border: 1px solid #333;
             padding: 10px;
         }
 
@@ -46,20 +52,18 @@
 </head>
 
 <body class="container">
-    <h1 class="header center">Reverse Splitter Newsletter</h1>
-    <h2 class="center">September 26, 2024</h2>
+    <h1 class="header center">🚀Reverse Splitter Newsletter🚀</h1>
+    <h2 class="center">📅 {{ date }}</h2>
 
     <p>Dear {{name}},</p>
 
-    <p>Thank you for subscribing to the Reverse Splitter Newsletter. We are excited to share with you the latest news
-        and updates from our team.</p>
+    <p>Thank you for subscribing to Grustler Grindset University 💪🔥</p>
 
-
-    <h2>Upcoming Splits</h2>
+    <h2>🤑 Upcoming Splits</h2>
     <div class="flex-col">
         {% for split in splits %}
         <div class="card border">
-            <h3>{{ split.stock }} 💰</h3>
+            <h3>💰 {{ split.stock }}</h3>
             <table>
                 <tr>
                     <td><b>Company Name</b></td>
@@ -74,9 +78,11 @@
                     <td>{{ split.exchange }}</td>
                 </tr>
             </table>
-            <h4>Rounding? ✨</h4>
+            <h4>✨ Rounding?</h4>
+            <p><small>ℹ️ Generated with Gemini-1.5-Flash</small></p>
             <p><em>{{ split.summary }}</em></p>
-            <a href="{{ split.press_release }}">Press Release</a>
+
+            <p>📰 <a href="{{ split.press_release }}">Press Release</a></p>
         </div>
         {% endfor %}
     </div>
