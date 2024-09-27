@@ -10,7 +10,11 @@ if (Astro.request.method === 'POST') {
   const pb = new PocketBase(PB_URL);
   const user = await pb.collection('users').authWithPassword(PB_USER, PB_PASS);
   if (!pb.authStore.isValid) {
-    return new Response('Unauthorized backend credentials', { status: 500 });
+    console.log('Invalid Pocketbase credentials');
+    return new Response(
+      'Internal server error. Its not you, its me. Please contact site admin.',
+      { status: 500 }
+    );
   }
   if (!subscriber_id) {
     return new Response('Bad Request: No subscriber ID provided', {
@@ -31,7 +35,7 @@ if (Astro.request.method === 'POST') {
 <Layout title='Unsubscribe'>
   <main class='flex flex-col items-center py-4 px-2'>
     <div
-      class='text-white bg-purple-700 rounded-lg p-4 w-full max-w-lg flex flex-col gap-4'
+      class='text-white bg-purple-950 rounded-lg p-4 w-full max-w-lg flex flex-col gap-4'
     >
       <h1 class='text-4xl font-bold mb-6 text-center'>Unsubscribe</h1>
       <p>

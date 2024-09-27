@@ -9,10 +9,14 @@ if (Astro.request.method === 'POST') {
   const pb = new PocketBase(PB_URL);
   console.log(PB_URL, PB_USER, PB_PASS);
   const user = await pb.collection('users').authWithPassword(PB_USER, PB_PASS);
-  console.log(user);
   if (!pb.authStore.isValid) {
-    console.log('Invalid credentials');
-    return new Response('Unauthorized', { status: 401 });
+    console.log('Invalid Pocketbase credentials');
+    return new Response(
+      'Internal server error. Its not you, its me. Please contact site admin.',
+      {
+        status: 500,
+      }
+    );
   }
 
   const formData = await Astro.request.formData();
