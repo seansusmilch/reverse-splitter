@@ -4,3 +4,4 @@ pocketbase==0.12.1
 apscheduler==3.10.4
 Jinja2==3.1.4
 requests-random-user-agent==2023.2.15
+beautifulsoup4==4.12.3
