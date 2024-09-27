@@ -7,7 +7,6 @@ import { PB_URL, PB_USER, PB_PASS } from 'astro:env/server';
 let message;
 if (Astro.request.method === 'POST') {
   const pb = new PocketBase(PB_URL);
-  console.log(PB_URL, PB_USER, PB_PASS);
   const user = await pb.collection('users').authWithPassword(PB_USER, PB_PASS);
   if (!pb.authStore.isValid) {
     console.log('Invalid Pocketbase credentials');
