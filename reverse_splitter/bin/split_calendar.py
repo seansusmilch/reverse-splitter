@@ -1,11 +1,12 @@
 # https://hedgefollow.com/upcoming-stock-splits.php
+import os
 from playwright.sync_api import sync_playwright
 from datetime import datetime, timedelta
 
 def scrape_hedgefollow():
     '''['RYAAY', 'NASDAQ', 'Ryanair Holdings plc', '5:2', '2024-09-30', '2024-09-13']'''
     playwright = sync_playwright().start()
-    browser = playwright.chromium.launch(headless=False)
+    browser = playwright.chromium.launch(headless=os.name != 'nt')
     context = browser.new_context()
     page = context.new_page()
 
