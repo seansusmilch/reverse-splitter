@@ -1,7 +1,8 @@
-import reverse_splitter.bin.emailer as emailer
-import reverse_splitter.bin.db as db
-import reverse_splitter.bin.create_newsletter as news
 from jinja2 import Environment, PackageLoader, select_autoescape, DebugUndefined
+from datetime import datetime
+from reverse_splitter.bin import logger, brevo, db
+
+log = logger.setup_logger('SendNewsletter')
 
 env = Environment(
     loader=PackageLoader("reverse_splitter"),
@@ -9,35 +10,43 @@ env = Environment(
     autoescape=select_autoescape()
 )
 
+def create_newsletter(splits):
+    date_string = datetime.today().strftime('%B %d, %Y')
+    
+    template = env.get_template('newsletter.html')
+    rendered = template.render(splits=splits, date=date_string)
+    
+    return {
+        'date': datetime.today().strftime('%Y-%m-%d'),
+        'subject': f'[{datetime.today().strftime('%m-%d')}] Reverse Splitter Newsletter',
+        'content': rendered
+    }
 
 def send_newsletter_job():
-    unsent_splits = db.get_pb().collection('reverse_splits').get_full_list(query_params={'filter': 'sent = false', 'sort': 'effective_date'})
+    reverse_splits = db.get_pb().collection('reverse_splits')
+    unsent_splits = reverse_splits.get_full_list(query_params={'filter': 'campaign_id = 0', 'sort': 'effective_date'})
     
     if not unsent_splits:
-        print('No unsent splits')
+        log.debug('No unsent splits')
         return
     
-    newsletter_record = news.create_newsletter(unsent_splits)
-    subject = newsletter_record.subject
-    content = newsletter_record.content
-    template = env.from_string(content)
+    newsletter = create_newsletter(unsent_splits)
+    subject = newsletter['subject']
+    content = newsletter['content']
+        
+    campaign_id, err = brevo.create_campaign(subject, subject, content)
+    if err:
+        log.error(f'Error creating campaign: {err}')
+        return
     
     for split in unsent_splits:
-        print('Updating split sent status', split.id)
-        db.get_pb().collection('reverse_splits').update(split.id, {'sent': True})
-        
+        log.debug(f'Sending split {split.id} {split.stock} in campaign {campaign_id}')
+        reverse_splits.update(split.id, {'campaign_id': campaign_id})
     
-    subscribers = db.get_pb().collection('subscribers').get_full_list()
-    for subscriber in subscribers:
-        name = subscriber.name
-        email = subscriber.email
-        unsubscribe_link=f'https://reverse-splitter.vercel.app/unsubscribe?code={subscriber.id}'
-        
-        hydrated_content = template.render(name=name, unsubscribe_link=unsubscribe_link)
-        
-        print('Sending email to', name, email)
-        emailer.send_html_email(email, subject, hydrated_content)
-        
-
+    brevo.send_campaign(campaign_id)
+    log.info(f'Sent {len(unsent_splits)} splits in campaign {campaign_id}')
+    
+    db.get_pb().collection('users').update(db.get_user().id, {'latest_campaign_id': campaign_id})
+    
 if __name__ == '__main__':
     send_newsletter_job()

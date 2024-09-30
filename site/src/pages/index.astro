@@ -23,7 +23,7 @@ if (Astro.request.method === 'POST') {
   const email = formData.get('email');
 
   console.log(`New subscriber: ${name} <${email}>`);
-  await pb.collection('subscribers').create({ name, email });
+  await pb.collection('new_subscribers').create({ name, email });
   message = 'Thanks for subscribing!';
 }
 ---

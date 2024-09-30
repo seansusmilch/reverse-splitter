@@ -55,9 +55,9 @@
     <h1 class="header center">🚀Reverse Splitter Newsletter🚀</h1>
     <h2 class="center">📅 {{ date }}</h2>
 
-    <p>Dear {{name}},</p>
+    <p>Hey {{ "{{contact.FIRSTNAME}}" }}!</p>
 
-    <p>Thank you for subscribing to Grustler Grindset University 💪🔥</p>
+    <p>Thank you for subscribing to the Reverse Splitter Newsletter 💪🔥</p>
 
     <h2>🤑 Upcoming Splits</h2>
     <div class="flex-col">
@@ -87,7 +87,7 @@
         {% endfor %}
     </div>
 
-    <a href="{{ unsubscribe_link }}">Unsubscribe</a>
+    <a href="{{ '{{unsubscribe}}' }}">Unsubscribe</a>
 
 </body>
 
