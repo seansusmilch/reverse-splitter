@@ -9,6 +9,7 @@ log = logger.setup_logger('Research')
 def research_job():
     upcoming_splits = calendar.get_next_splits()
     
+    log.info(f'Processing {len(upcoming_splits)} upcoming reverse splits')
     for split in upcoming_splits:
         try:
             # Check if record already exists
@@ -35,7 +36,6 @@ def research_job():
             'effective_date': split[4],
             'press_release': real_url,
             'summary': summary,
-            'sent': False
         }
     
         db.get_pb().collection('reverse_splits').create(split_record)

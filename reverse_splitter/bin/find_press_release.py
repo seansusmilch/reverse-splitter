@@ -1,10 +1,18 @@
-from .common import get_real_url
 import requests
 import requests_random_user_agent # type: ignore
 from bs4 import BeautifulSoup
-from . import logger
+import reverse_splitter.bin.logger as logger
+from urllib3.util import parse_url
+from urllib.parse import unquote
 
 log = logger.setup_logger('PressRelease')
+
+def get_real_url(raw_url):
+    parsed_url = parse_url(raw_url)
+    paths = parsed_url.path.split('/')
+    for element in paths:
+        if element.startswith('RU='):
+            return unquote(element).replace('RU=', '')
 
 def find_press_release(query:str):
     session = requests.Session()
@@ -19,10 +27,17 @@ def find_press_release(query:str):
         real_url = get_real_url(result['href'])
         res = session.get(real_url)
         soup = BeautifulSoup(res.text, 'html.parser')
-        return real_url, soup.get_text()
+        text_content = soup.get_text()
+        
+        if len(text_content) < 1000:
+            log.debug(f'Press release looks short. Assuming something went wrong {real_url} content="{text_content}"')
+            continue
+        
+        return real_url, text_content
     
     return None
 
 
 if __name__ == '__main__':
-    print(find_press_release('SONN reverse split press release'))
+    url, article = find_press_release('SONN reverse split press release')
+    print(len(article))
