@@ -38,8 +38,9 @@ def get_next_splits():
     stock_exchanges = ['NASDAQ', 'NYSE']
     reverse_splits = list(filter(lambda row: row[1] in stock_exchanges, reverse_splits))
     
-    soon = datetime.today() + timedelta(days=4)
-    reverse_splits = list(filter(lambda row: datetime.today() <= datetime.strptime(row[4], '%Y-%m-%d') <= soon, reverse_splits))
+    # soon = datetime.today() + timedelta(days=4)
+    # reverse_splits = list(filter(lambda row: datetime.today() <= datetime.strptime(row[4], '%Y-%m-%d') <= soon, reverse_splits))
+    reverse_splits = list(filter(lambda row: datetime.today() <= datetime.strptime(row[4], '%Y-%m-%d'), reverse_splits))
     
     return reverse_splits
 
