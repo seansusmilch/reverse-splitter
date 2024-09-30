@@ -31,16 +31,16 @@ def add_new_subscribers_job():
         
     log.info(f'Added {len(new_subs_records)} new subscribers to Brevo')
     
-    # try:
-    #     latest_campaign_id = db.get_user().latest_campaign_id
-    #     if latest_campaign_id == 0:
-    #         log.debug('No latest campaign to send to new subscribers')
-    #         return
+    try:
+        welcome_campaign_id = db.get_user().welcome_campaign_id
+        if welcome_campaign_id == 0:
+            log.debug('No welcome campaign to send to new subscribers')
+            return
         
-    #     brevo.send_campaign(latest_campaign_id)
-    #     log.info(f'Sent latest campaign to new subscribers')
-    # except Exception as e:
-    #     log.error(f'Error sending latest campaign to new subscribers: {e}')
+        brevo.send_campaign(welcome_campaign_id)
+        log.info(f'Sent welcome campaign to new subscribers')
+    except Exception as e:
+        log.error(f'Error sending welcome campaign to new subscribers: {e}')
 
     
 if __name__ == '__main__':

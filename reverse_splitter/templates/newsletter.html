@@ -23,7 +23,8 @@
             box-sizing: border-box;
         }
 
-        .header {
+        .header,
+        .footer {
             background-color: #f8f8f8;
             padding: 20px;
         }
@@ -87,7 +88,19 @@
         {% endfor %}
     </div>
 
-    <a href="{{ '{{unsubscribe}}' }}">Unsubscribe</a>
+    <h2>⚠️ Disclaimer</h2>
+
+    <p>
+        Please remember that any investment involves risk, and that this newsletter is <b>not to be used as
+            financial
+            advice</b>. Do your own research before coming to any sort of financial decisions.
+    </p>
+
+    <div class="footer">
+        <small>If you wish to unsubscribe from this newsletter, please click <a
+                href="{{ '{{unsubscribe}}' }}">unsubscribe</a>
+        </small>
+    </div>
 
 </body>
 
