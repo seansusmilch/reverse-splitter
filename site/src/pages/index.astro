@@ -58,6 +58,11 @@ if (Astro.request.method === 'POST') {
     <Info />
   </main>
 </Layout>
+<script>
+  if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href);
+  }
+</script>
 
 <style>
   main {
