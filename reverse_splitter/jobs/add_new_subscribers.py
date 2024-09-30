@@ -24,10 +24,10 @@ def add_new_subscribers_job():
         new_subs.delete(sub.id)
         
         if not res:
-            log.info(f'Subscriber {name} ({email}) already exists in Brevo. Updated instead.')
+            log.info(f'Updated subscriber {name} ({email}) in Brevo')
             continue
         
-        log.info(f'Successfully added subscriber {name} ({email}) to Brevo')
+        log.info(f'Added subscriber {name} ({email}) to Brevo')
         
     log.info(f'Added {len(new_subs_records)} new subscribers to Brevo')
     
