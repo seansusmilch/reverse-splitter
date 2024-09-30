@@ -13,11 +13,11 @@ def main():
     
     try:
         log.debug('Entering infinite loop')
-        log.debug('Press Ctrl+C to exit')
+        log.info('Press Ctrl+C to exit')
         while True:
             time.sleep(10)
     except KeyboardInterrupt:
-        log.debug('Shutting down...')
+        log.info('Shutting down...')
         scheduler.scheduler.shutdown()
 
 

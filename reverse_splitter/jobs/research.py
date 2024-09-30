@@ -13,7 +13,7 @@ def research_job():
         try:
             # Check if record already exists
             db.get_pb().collection('reverse_splits').get_first_list_item(f'stock = "{split[0]}" && effective_date = "{split[4]}"')
-            log.debug(f'Record for {split[0]} on {split[4]} already exists')
+            log.debug(f'Skipping {split[0]} on {split[4]}: already exists')
             continue
         except:
             # No record found
@@ -39,6 +39,7 @@ def research_job():
         }
     
         db.get_pb().collection('reverse_splits').create(split_record)
+        log.info(f'Record for {split[0]} on {split[4]} created')
 
 
 

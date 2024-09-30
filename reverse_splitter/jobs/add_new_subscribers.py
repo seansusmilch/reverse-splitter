@@ -29,8 +29,6 @@ def add_new_subscribers_job():
         
         log.info(f'Added subscriber {name} ({email}) to Brevo')
         
-    log.info(f'Added {len(new_subs_records)} new subscribers to Brevo')
-    
     try:
         welcome_campaign_id = db.get_user().welcome_campaign_id
         if welcome_campaign_id == 0:
