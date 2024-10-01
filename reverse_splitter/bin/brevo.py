@@ -93,14 +93,17 @@ def send_campaign(campaign_id: int):
     
     return res, err
 
+def send_transactional(template_id:int, to:list=[]):
+    welcome_email = brevo_python.SendSmtpEmail(
+        sender={'email': BREVO_SENDER_FROM_EMAIL, 'name': BREVO_SENDER_FROM_NAME},
+        to=to,
+        template_id=template_id
+    )
+
+    api = brevo_python.TransactionalEmailsApi(get_client())
+    api.send_transac_email(welcome_email)
+
 if __name__ == '__main__':
-    print('BREVO_API_KEY:', BREVO_API_KEY)
-    print('BREVO_SUBSCRIBER_LIST_ID:', BREVO_SUBSCRIBER_LIST_ID)
-    print('BREVO_SENDER_FROM_NAME:', BREVO_SENDER_FROM_NAME)
-    print('BREVO_SENDER_FROM_EMAIL:', BREVO_SENDER_FROM_EMAIL)
-    
-    contact_id, err = create_contact('seantsusmilch@proton.me', 'Sean')
-    
     # campaign_id, err = create_campaign('SEND TO NEW CONTACTS TEST', 'SEND TO NEW CONTACTS TEST', '<html><body><h1>TEST</h1><p>AAAAA<a href="https://google.com">stu</a>AAAAAAAA<a href="{{ unsubscribe }}">Unsubscribe</a></p></body></html>')
     # print('campaign:', campaign_id)
     

@@ -11,6 +11,8 @@ def add_new_subscribers_job():
     if not new_subs_records:
         log.debug('No new subscribers')
         return
+    
+    welcome_template_id = db.get_user().welcome_template_id
         
     for sub in new_subs_records:
         email = sub.email
@@ -25,21 +27,14 @@ def add_new_subscribers_job():
         
         if not res:
             log.info(f'Updated subscriber {name} ({email}) in Brevo')
-            continue
+        else:
+            log.info(f'Added subscriber {name} ({email}) to Brevo')
         
-        log.info(f'Added subscriber {name} ({email}) to Brevo')
-        
-    try:
-        welcome_campaign_id = db.get_user().welcome_campaign_id
-        if welcome_campaign_id == 0:
-            log.debug('No welcome campaign to send to new subscribers')
-            return
-        
-        brevo.send_campaign(welcome_campaign_id)
-        log.info(f'Sent welcome campaign to new subscribers')
-    except Exception as e:
-        log.error(f'Error sending welcome campaign to new subscribers: {e}')
+        if welcome_template_id != 0:
+            log.debug(f'Sending welcome email to {name} ({email})')
+            brevo.send_transactional(welcome_template_id, to=[{'email': email, 'name': name}])
 
     
 if __name__ == '__main__':
     add_new_subscribers_job()
+    
