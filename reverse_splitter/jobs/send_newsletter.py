@@ -11,8 +11,9 @@ env = Environment(
     autoescape=select_autoescape()
 )
 
-NEWSLETTER_MIN_DAYS = os.environ.get('NEWSLETTER_MIN_DAYS', 5)
-NEWSLETTER_MIN_SPLIT_COUNT = os.environ.get('NEWSLETTER_MIN_SPLIT_COUNT', 3)
+NEWSLETTER_MIN_DAYS = int(os.environ.get('NEWSLETTER_MIN_DAYS', 5))
+NEWSLETTER_MAX_DAYS = int(os.environ.get('NEWSLETTER_MAX_DAYS', 14))
+NEWSLETTER_MIN_SPLIT_COUNT = int(os.environ.get('NEWSLETTER_MIN_SPLIT_COUNT', 3))
 
 def create_newsletter(splits):
     date_string = datetime.today().strftime('%B %d, %Y')
@@ -27,23 +28,30 @@ def create_newsletter(splits):
     }
 
 def send_newsletter_job():
+    newsletter_max_date = datetime.today() + timedelta(days=NEWSLETTER_MAX_DAYS)
+    newsletter_max_date_string = newsletter_max_date.strftime('%Y-%m-%d')
     reverse_splits = db.get_pb().collection('reverse_splits')
-    unsent_splits = reverse_splits.get_full_list(query_params={'filter': 'campaign_id = 0', 'sort': 'effective_date'})
+    unsent_splits = reverse_splits.get_full_list(
+        query_params={
+            'filter': f'campaign_id = 0 && effective_date <= "{newsletter_max_date_string}"', 'sort': 'effective_date'
+            }
+        )
     
     if not unsent_splits:
         log.debug('No unsent splits')
         return
     
     newsletter_min_date = datetime.today() + timedelta(days=NEWSLETTER_MIN_DAYS)
-    newsletter_min_date_string = newsletter_min_date.strftime('%B %d, %Y')
+    newsletter_min_date_string = newsletter_min_date.strftime('%Y-%m-%d')
     
     first_split_is_soon = unsent_splits[0].effective_date <= newsletter_min_date_string
-    enough_splits = len(unsent_splits) < NEWSLETTER_MIN_SPLIT_COUNT
+    enough_splits = len(unsent_splits) > NEWSLETTER_MIN_SPLIT_COUNT
     
     if not first_split_is_soon and not enough_splits:
         log.debug('Not enough splits to send newsletter')
         return
     
+    log.debug(f'Creating newsletter for reason first_split_is_soon={first_split_is_soon} enough_splits={enough_splits}')
     newsletter = create_newsletter(unsent_splits)
     subject = newsletter['subject']
     content = newsletter['content']
@@ -63,8 +71,14 @@ def send_newsletter_job():
     db.get_pb().collection('users').update(db.get_user().id, {'latest_campaign_id': campaign_id})
     
 if __name__ == '__main__':
-    # send_newsletter_job()
-    reverse_splits = db.get_pb().collection('reverse_splits')
-    unsent_splits = reverse_splits.get_full_list(query_params={'sort': 'effective_date'})
-    for split in unsent_splits:
-        print(vars(split))
+    send_newsletter_job()
+    # newsletter_max_date = datetime.today() + timedelta(days=NEWSLETTER_MAX_DAYS)
+    # newsletter_max_date_string = newsletter_max_date.strftime('%Y-%m-%d')
+    # reverse_splits = db.get_pb().collection('reverse_splits')
+    # res = reverse_splits.get_full_list(
+    #     query_params={
+    #         'filter': f'campaign_id = 0 && effective_date <= "{newsletter_max_date_string}"', 'sort': 'effective_date'
+    #         }
+    #     )
+    
+    # print(vars(res[0]))

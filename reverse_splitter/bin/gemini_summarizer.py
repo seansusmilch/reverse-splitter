@@ -11,7 +11,8 @@ PROMPT = ' '.join([
     # "If the article does not contain information about fractional shares, respond with 'No information about fractional shares.'",
     "Use simple language.",
     "Read carefully.",
-    "Do not hallucinate."
+    "Do not hallucinate.",
+    "Start the summary with a yes or no answer to the question: 'Will fractional shares be rounded up?'",
 ])
 
 def summarize_article(article:str):
