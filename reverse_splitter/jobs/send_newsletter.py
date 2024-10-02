@@ -2,6 +2,7 @@ from jinja2 import Environment, PackageLoader, select_autoescape, DebugUndefined
 from datetime import datetime, timedelta
 from reverse_splitter.bin import logger, brevo, db
 import os
+import reverse_splitter.bin.price as price
 
 log = logger.setup_logger('SendNewsletter')
 
@@ -17,6 +18,10 @@ NEWSLETTER_MIN_SPLIT_COUNT = int(os.environ.get('NEWSLETTER_MIN_SPLIT_COUNT', 3)
 
 def create_newsletter(splits):
     date_string = datetime.today().strftime('%B %d, %Y')
+    
+    last_prices = price.get_last_prices([split.stock for split in splits])
+    for split in splits:
+        split.last_price = last_prices[split.stock]
     
     template = env.get_template('newsletter.html')
     rendered = template.render(splits=splits, date=date_string)
