@@ -104,8 +104,8 @@ def send_transactional(template_id:int, to:list=[]):
     api.send_transac_email(welcome_email)
 
 if __name__ == '__main__':
-    pass
-    # campaign_id, err = create_campaign('SEND TO NEW CONTACTS TEST', 'SEND TO NEW CONTACTS TEST', '<html><body><h1>TEST</h1><p>AAAAA<a href="https://google.com">stu</a>AAAAAAAA<a href="{{ unsubscribe }}">Unsubscribe</a></p></body></html>')
-    # print('campaign:', campaign_id)
+    campaign_id, err = create_campaign('SEND TO NEW CONTACTS TEST', 'SEND TO NEW CONTACTS TEST', '<html><body><h1>TEST</h1><p>AAAAA<a href="https://google.com">stu</a>AAAAAAAA<a href="{{ unsubscribe }}">Unsubscribe</a></p></body></html>')
+    print('campaign:', campaign_id)
+    print('err', err)
     
     # send = send_campaign(campaign_id)
