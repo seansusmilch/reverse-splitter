@@ -14,6 +14,18 @@
             box-sizing: border-box;
         } */
 
+        .mb-0 {
+            margin-bottom: 0;
+        }
+
+        .m-0 {
+            margin: 0;
+        }
+
+        .muted {
+            color: #777;
+        }
+
         .container {
             font-family: 'Poppins', sans-serif;
             width: 100%;
@@ -27,6 +39,7 @@
         .footer {
             background-color: #f8f8f8;
             padding: 20px;
+            border-radius: 10px;
         }
 
         .center {
@@ -49,6 +62,55 @@
             flex-direction: column;
             gap: 8px;
         }
+
+        .flex-row {
+            display: flex;
+        }
+
+        .align-center {
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .highlight {
+            background-color: #bc8de5 !important;
+        }
+
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #222;
+                color: #eee;
+            }
+
+            .muted {
+                color: #aaa;
+            }
+
+            .header,
+            .footer {
+                background-color: #111;
+            }
+
+            .border {
+                border: 1px solid #fff;
+            }
+
+            .highlight {
+                background-color: #2c0d5f !important
+            }
+
+            a {
+                color: #fff !important;
+            }
+
+            .card {
+                box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+                padding: 10px;
+                border-radius: 10px;
+                background-color: #333;
+            }
+        }
     </style>
 </head>
 
@@ -64,34 +126,36 @@
     <div class="flex-col">
         {% for split in splits %}
         <div class="card border">
-            <h3>💰 {{ split.stock }}</h3>
+            <div class="flex-row align-center">
+                <h3 class="m-0">💰 {{ split.stock }}</h3>
+                <small class="muted">{{ split.exchange }}</small>
+            </div>
+
+            <small class="muted">{{ split.company_name }}</small>
             <table>
                 <tr>
-                    <td><b>Company Name</b></td>
-                    <td>{{ split.company_name }}</td>
-                </tr>
-                <tr>
                     <td><b>Ratio</b></td>
-                    <td>{{ split.ratio }}</td>
+                    <td>🧮{{ split.ratio }}</td>
                 </tr>
                 <tr>
                     <td><b>Last Price</b></td>
-                    <td>{{ split.last_price }}</td>
+                    <td>💲{{ split.last_price }}</td>
                 </tr>
                 <tr>
                     <td><b>Effective Date</b></td>
-                    <td>{{ split.effective_date }}</td>
-                </tr>
-                <tr>
-                    <td><b>Stock Exchange</b></td>
-                    <td>{{ split.exchange }}</td>
+                    <td>📅{{ split.effective_date }}</td>
                 </tr>
             </table>
-            <h4>✨ Rounding?</h4>
-            <p><small>ℹ️ Generated with Gemini-1.5-Flash</small></p>
-            <p><em>{{ split.summary }}</em></p>
+            <div class="card border highlight">
+                <h3 class="m-0">✨ Rounding?</h3>
 
-            <p>📰 <a href="{{ split.press_release }}">Press Release</a></p>
+                <p class="m-0"><small>ℹ️ Generated with Gemini-1.5-Flash</small></p>
+                <p><em>{{ split.summary }}</em></p>
+                <p class="mb-0">📰 <a href="{{ split.press_release }}">Press Release</a></p>
+
+            </div>
+
+
         </div>
         {% endfor %}
     </div>

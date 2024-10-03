@@ -6,12 +6,13 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 
 PROMPT = ' '.join([
     "-- This is an article about a stock reverse split.\n",
-    "--- Summarize the information about fractional shares into one sentence.",
+    "--- Summarize the information about fractional shares into two sentences.",
     # "If the article says fractional shares will be rounded up to the nearest whole share, respond with 'Fractional shares will be rounded up.'",
     # "If the article does not contain information about fractional shares, respond with 'No information about fractional shares.'",
     "Use simple language.",
     "Read carefully.",
     "Do not hallucinate.",
+    "Keep it concise.",
     "Start the summary with a yes or no answer to the question: 'Will fractional shares be rounded up?'",
 ])
 
