@@ -57,12 +57,6 @@
             border-radius: 10px;
         }
 
-        .flex-col {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
         .flex-row {
             display: flex;
         }
@@ -74,6 +68,10 @@
 
         .highlight {
             background-color: #bc8de5 !important;
+        }
+
+        .mb-10 {
+            margin-bottom: 10px;
         }
 
 
@@ -123,42 +121,40 @@
     <p>Thank you for subscribing to the Reverse Splitter Newsletter 💪🔥</p>
 
     <h2>🤑 Upcoming Splits</h2>
-    <div class="flex-col">
-        {% for split in splits %}
-        <div class="card border">
-            <div class="flex-row align-center">
-                <h3 class="m-0">💰 {{ split.stock }}</h3>
-                <small class="muted">{{ split.exchange }}</small>
-            </div>
+    {% for split in splits %}
+    <div class="card border mb-10">
+        <div class="flex-row align-center">
+            <h3 class="m-0">💰 {{ split.stock }}</h3>
+            <small class="muted">{{ split.exchange }}</small>
+        </div>
 
-            <small class="muted">{{ split.company_name }}</small>
-            <table>
-                <tr>
-                    <td><b>Ratio</b></td>
-                    <td>🧮{{ split.split_ratio }}</td>
-                </tr>
-                <tr>
-                    <td><b>Last Price</b></td>
-                    <td>💲{{ split.last_price }}</td>
-                </tr>
-                <tr>
-                    <td><b>Effective Date</b></td>
-                    <td>📅{{ split.effective_date }}</td>
-                </tr>
-            </table>
-            <div class="card border highlight">
-                <h3 class="m-0">✨ Rounding?</h3>
+        <small class="muted">{{ split.company_name }}</small>
+        <table>
+            <tr>
+                <td><b>Ratio</b></td>
+                <td>🧮{{ split.split_ratio }}</td>
+            </tr>
+            <tr>
+                <td><b>Last Price</b></td>
+                <td>💲{{ split.last_price }}</td>
+            </tr>
+            <tr>
+                <td><b>Effective Date</b></td>
+                <td>📅{{ split.effective_date }}</td>
+            </tr>
+        </table>
+        <div class="card border highlight">
+            <h3 class="m-0">✨ Rounding?</h3>
 
-                <p class="m-0"><small>ℹ️ Generated with Gemini-1.5-Flash</small></p>
-                <p><em>{{ split.summary }}</em></p>
-                <p class="mb-0">📰 <a href="{{ split.press_release }}">Press Release</a></p>
-
-            </div>
-
+            <p class="m-0"><small>ℹ️ Generated with Gemini-1.5-Flash</small></p>
+            <p><em>{{ split.summary }}</em></p>
+            <p class="mb-0">📰 <a href="{{ split.press_release }}">Press Release</a></p>
 
         </div>
-        {% endfor %}
+
+
     </div>
+    {% endfor %}
 
     <h2>⚠️ Disclaimer</h2>
 
