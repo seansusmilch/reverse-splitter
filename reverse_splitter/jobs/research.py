@@ -27,6 +27,7 @@ def research_job():
         
         real_url, article = press
         summary = summarizer.summarize_article(article)
+        log.debug(f'Summary for {split[0]} on {split[4]} - "{summary[0:10]}..."')
         
         split_record = {
             'stock': split[0],

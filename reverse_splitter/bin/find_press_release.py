@@ -25,7 +25,17 @@ def find_press_release(query:str):
             continue
         log.debug(f'Found press release: {result.text}')
         real_url = get_real_url(result['href'])
-        res = session.get(real_url)
+        
+        if 'businesswire.com' in real_url:
+            log.debug(f'Found businesswire press release: {real_url}')
+            continue
+        
+        try:
+            res = session.get(real_url, timeout=5)
+        except:
+            log.error(f'Error fetching {real_url}')
+            continue
+        
         soup = BeautifulSoup(res.text, 'html.parser')
         text_content = soup.get_text()
         
