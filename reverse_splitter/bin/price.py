@@ -5,7 +5,6 @@ import yfinance as yf
 # https://medium.com/@kasperjuunge/yfinance-10-ways-to-get-stock-data-with-python-6677f49e8282
 
 def get_last_prices(tickers=[]):
-    tickers = ['AAPL', 'MSFT', 'GOOG']
     data = yf.download(tickers, rounding=True, period='1d', prepost=False)
     res = {}
     for t in tickers:
@@ -14,4 +13,4 @@ def get_last_prices(tickers=[]):
     return res
         
 if __name__ == '__main__':
-    print(get_last_prices(['APPLadf', 'MSFT', 'GOOG']))
+    print(get_last_prices(['SIFY', 'MSFT', 'GOOG']))

@@ -21,7 +21,7 @@ def create_newsletter(splits):
     
     last_prices = price.get_last_prices([split.stock for split in splits])
     for split in splits:
-        split.last_price = last_prices[split.stock]
+        split.last_price = last_prices.get(split.stock, 'Error')
     
     template = env.get_template('newsletter.html')
     rendered = template.render(splits=splits, date=date_string)
@@ -50,7 +50,7 @@ def send_newsletter_job():
     newsletter_min_date_string = newsletter_min_date.strftime('%Y-%m-%d')
     
     first_split_is_soon = unsent_splits[0].effective_date <= newsletter_min_date_string
-    enough_splits = len(unsent_splits) > NEWSLETTER_MIN_SPLIT_COUNT
+    enough_splits = len(unsent_splits) >= NEWSLETTER_MIN_SPLIT_COUNT
     
     if not first_split_is_soon and not enough_splits:
         log.debug('Not enough splits to send newsletter')
@@ -60,7 +60,7 @@ def send_newsletter_job():
     newsletter = create_newsletter(unsent_splits)
     subject = newsletter['subject']
     content = newsletter['content']
-        
+    
     campaign_id, err = brevo.create_campaign(subject, subject, content)
     if err:
         log.error(f'Error creating campaign: {err}')
