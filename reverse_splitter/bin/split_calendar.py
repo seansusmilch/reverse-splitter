@@ -43,7 +43,7 @@ def scrape_briefing():
         
         cells = row.select('td')
         stock = cells[1].text
-        exchange = 'NASDAQ'
+        exchange = 'NASDAQ/NYSE'
         company_name = cells[0].text
         ratio = cells[2].text.replace('-', ':')
 
@@ -69,8 +69,8 @@ def get_next_splits():
     
     reverse_splits = list(filter(lambda row: row[3].startswith('1:'), all_splits))
     
-    stock_exchanges = ['NASDAQ', 'NYSE']
-    reverse_splits = list(filter(lambda row: row[1] in stock_exchanges, reverse_splits))
+    exchange_blacklist = ['OTC']
+    reverse_splits = list(filter(lambda row: row[1] not in exchange_blacklist, reverse_splits))
     
     reverse_splits = list(filter(lambda row: datetime.today() <= datetime.strptime(row[4], '%Y-%m-%d'), reverse_splits))
     
