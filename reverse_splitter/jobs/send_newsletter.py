@@ -12,7 +12,7 @@ env = Environment(
     autoescape=select_autoescape()
 )
 
-NEWSLETTER_MIN_DAYS = int(os.environ.get('NEWSLETTER_MIN_DAYS', 5))
+NEWSLETTER_MIN_DAYS = int(os.environ.get('NEWSLETTER_MIN_DAYS', 7))
 NEWSLETTER_MAX_DAYS = int(os.environ.get('NEWSLETTER_MAX_DAYS', 14))
 NEWSLETTER_MIN_SPLIT_COUNT = int(os.environ.get('NEWSLETTER_MIN_SPLIT_COUNT', 3))
 
