@@ -6,13 +6,16 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 
 PROMPT = ' '.join([
     "-- This is an article about a stock reverse split.\n",
-    "--- Summarize the information about fractional shares into two sentences.",
+    "--- Summarize the information about fractional shares into one or two sentences.",
     # "If the article says fractional shares will be rounded up to the nearest whole share, respond with 'Fractional shares will be rounded up.'",
     # "If the article does not contain information about fractional shares, respond with 'No information about fractional shares.'",
     "Use simple language.",
     "Read carefully.",
     "Do not hallucinate.",
     "Keep it concise.",
+    "Do not include any information that is not in the article.",
+    "Do not include any examples.",
+    "Do not include any explanations."
     "Start the summary with a yes or no answer to the question: 'Will fractional shares be rounded up?'",
 ])
 
@@ -22,102 +25,102 @@ def summarize_article(article:str):
 
 if __name__ == '__main__':
     article = '''
-Stockhouse.com uses cookies on this site. By continuing to use our service, you agree to our use of cookies. Cookies are used to offer you a better browsing experience and to analyze our traffic. We also use them to share usage information with our partners. See full details.
-I Agree
-×
 Stockhouse Logo
 Join today and have your say! It’s FREE!
-
-    Home
-    Community
-    Markets
-    News
-    Portfolio
-    DealRoom 
+Join Now Sign In
+Home
+Community
+Markets
+News
+Portfolio
+DealRoom
+Search Companies, etc
 
 News   Press Releases
-ZW Data Action Technologies Inc. Announces Reverse Stock Split
-CNET | 23 hours ago
+AgEagle Aerial Systems Inc. Announces Reverse Stock Split
+UAVS | 18 hours ago
+Wichita, Kansas, Oct. 03, 2024 (GLOBE NEWSWIRE) -- AgEagle Aerial Systems Inc. (NYSE American: UAVS) (“AgEagle” or the “Company”), an industry-leading provider of full stack flight hardware, sensors and software for commercial and government use, announced today a reverse stock split of its authorized, issued and outstanding common stock, par value $0.001 per share, at a ratio of one (1) share of common stock for every fifty (50) shares of common stock, effective as of 5:00 p.m. (Eastern Time) on October 14, 2024 (the “Effective Date”). The Company’s common stock will begin trading on a split-adjusted basis when the market opens on October 15, 2024. The reverse stock split was authorized by the Company’s Board of Directors on October 3, 2024. Pursuant to the laws of the State of Nevada, the Company’s state of incorporation, the Company’s Board of Directors has the authority to effect a reverse stock split without shareholder approval if the number of authorized shares of common stock and the number of outstanding shares of common stock are proportionally reduced. The Company will file a certificate of change to its articles of incorporation, as amended, with the Secretary of State of Nevada to effect the reverse stock split. The Company’s common stock will continue to trade on the NYSE American under the stock ticker “UAVS” but will trade under the new CUSIP number 00848K 309.
 
-BEIJING, Sept. 25, 2024 (GLOBE NEWSWIRE) -- ZW Data Action Technologies Inc. (Nasdaq: CNET) (“ZW Data” or the “Company”), an integrated online advertising, precision marketing, data analytics, and other value-added services company, announced today that its Board of Directors has approved a reverse stock split of its common stock, par value $0.001 per share (the “Common Stock”) at a ratio of 1-for-4 (the “Reverse Stock Split”). The Reverse Stock Split will take effect on September 30, 2024, and the shares of the Company will trade on a post-split basis on Nasdaq under the Company’s existing trading symbol “CNET,” at the market open on September 30, 2024, upon Nasdaq’s approval. The new CUSIP number following the Reverse Stock Split will be 98880R 307.
+As a result of the reverse split, each fifty (50) pre-split shares of common stock outstanding will automatically combine into one (1) new share of common stock without any action on the part of the holders, and the number of outstanding common shares will be reduced from 39,720,458 shares to approximately 850,409 shares without taking into account fractional shares.
 
-Under Nevada Revised Statutes (“NRS”) Section 78.207, the Company may decrease its authorized shares of Common Stock and correspondingly decrease the number of issued and outstanding shares of Common Stock by resolution adopted by the Board of Directors, without obtaining the approval of the stockholders. The Reverse Stock Split will be effected by the Company filing a Certificate of Change (the “Certificate”) pursuant to NRS Section 78.209 with the Secretary of State of the State of Nevada. As a result of the filing of the Certificate, the number of shares of the Company’s authorized Common Stock will be reduced from 50,000,000 shares to 12,500,000 shares and the issued and outstanding number of shares of the Common Stock will be correspondingly decreased.
+The reverse stock split is being effected to ensure that the Company can meet the per share price requirements of the NYSE American, the Company's current listing exchange.
 
-When the Reverse Stock Split becomes effective, the total number of shares of Common Stock held by each stockholder of the Company will be converted automatically into the number of shares of Common Stock equal to (i) the number of issued and outstanding shares of Common Stock held by each such stockholder immediately prior to the Reverse Stock Split, divided by (ii) 4, with such resulting number of shares rounded up to the nearest whole share. The Company will issue one whole share of the post-Reverse Stock Split Common Stock to any stockholder who otherwise would have received a fractional share as a result of the Reverse Stock Split. As a result, no fractional shares will be issued in connection with the Reverse Stock Split and no cash or other consideration will be paid in connection with any fractional shares that would otherwise have resulted from the Reverse Stock Split.
+No fractional shares will be issued as a result of the reverse stock split. Shareholders who otherwise would be entitled to a fractional share because they hold a number of shares not evenly divisible by the 1 (one) for fifty (50) reverse split ratio, will automatically be entitled to receive an additional fractional share of the Company’s common stock to round up to the next whole share.
 
-The Reverse Stock Split has no effect on the par value of the Company’s Common Stock or authorized shares of preferred stock. Immediately after the Reverse Stock Split, each stockholder’s percentage ownership interest in the Company and proportional voting power will remain unchanged, except for minor changes and adjustments that will result from the treatment of fractional shares. The rights and privileges of the holders of shares of Common Stock will be substantially unaffected by the Reverse Stock Split.
+The Company’s transfer agent, Equiniti Trust Company, which is also acting as the exchange agent for the reverse split, will send instructions to stockholders of record who hold stock certificates regarding the exchange of their old certificates for new certificates, should they wish to do so. Stockholders who hold their shares in brokerage accounts or “street name” are not required to take action to effect the exchange of their shares.
 
-The Reverse Stock Split is primarily being effected to regain compliance with the $1.00 minimum bid price required for continued listing on The Nasdaq Capital Market under Nasdaq Listing Rule 5550(a)(2).
+This press release does not constitute an offer to sell or the solicitation of an offer to buy, nor will there be any sales of these securities in any jurisdiction in which such offer, solicitation or sale would be unlawful prior to registration or qualification under the securities laws of such jurisdiction. For more detailed information relating to this transaction, please refer to the related Form 8-K to be filed by the Company with the U.S. Securities and Exchange Commission.
 
-Stockholders who are holding their shares in electronic form at brokerage firms do not need to take any action, as the effect of the Reverse Stock Split will automatically be reflected in their brokerage accounts. Stockholders holding paper certificates may (but are not required to) send the certificates to the Company’s transfer agent and registrar, Empire Stock Transfer. Empire Stock Transfer will issue a new stock certificate reflecting the Reverse Stock Split to each requesting stockholder.
+About AgEagle Aerial Systems Inc.
 
-About ZW Data Action Technologies Inc.
+Through its three centers of excellence, AgEagle is actively engaged in designing and delivering best-in-class flight hardware, sensors and software that solve important problems for its customers. Founded in 2010, AgEagle was originally formed to pioneer proprietary, professional-grade, fixed-winged drones and aerial imagery-based data collection and analytics solutions for the agriculture industry. Today, AgEagle is a leading provider of full stack drone solutions for customers worldwide in the energy, construction, agriculture, and government verticals. For additional information, please visit our website at www.ageagle.com.
 
-Established in 2003 and headquartered in Beijing, China, ZW Data Action Technologies Inc. (the “Company”) offers online advertising, precision marketing, data analytics and other value-added services for enterprise clients. Leveraging its fully integrated services platform, proprietary database, and cutting-edge algorithms, ZW Data Action Technologies delivers customized, result-driven business solutions for small and medium-sized enterprise clients in China. The Company also develops blockchain and artificial intelligence enabled web/mobile applications and software solutions for clients. More information about the Company can be found at: http://www.zdat.com/.
+Forward-Looking Statement
 
-Forward-looking Statement
+This press release may contain “forward-looking statements” within the meaning of Section 27A of the Securities Act of 1933 and Section 21E of the Securities Exchange Act of 1934, each as amended. Forward-looking statements include all statements that do not relate solely to historical or current facts, including without limitation statements regarding the Company’s product development and business prospects, and can be identified by the use of words such as “may,” “will,” “expect,” “project,” “estimate,” “anticipate,” “plan,” “believe,” “potential,” “should,” “continue” or the negative versions of those words or other comparable words. Forward-looking statements are not guarantees of future actions or performance. These forward-looking statements are based on information currently available to the Company and its current plans or expectations and are subject to a number of risks and uncertainties that could significantly affect current plans. Should one or more of these risks or uncertainties materialize, or the underlying assumptions prove incorrect, actual results may differ significantly from those anticipated, believed, estimated, expected, intended, or planned. Although the Company believes that the expectations reflected in the forward-looking statements are reasonable, the Company cannot guarantee future results, performance, or achievements. Except as required by applicable law, including the securities laws of the United States, the Company does not intend to update any of the forward-looking statements to conform these statements to actual results.
 
-This release includes “forward-looking statements” within the meaning of Section 27A of the Securities Act of 1933, as amended, and Section 21E of the Securities Exchange Act of 1934, as amended. Forward-looking statements give our current expectations, opinion, belief or forecasts of future events and performance. A statement identified by the use of forward-looking words including “will,” “may,” “expects,” “projects,” “anticipates,” “plans,” “believes,” “estimate,” “should,” and certain of the other foregoing statements may be deemed forward-looking statements. These forward-looking statements are subject to a number of risks, uncertainties and assumptions, including market and other conditions. More detailed information about the Company and the risk factors that may affect the realization of forward-looking statements is set forth in the Company’s filings with the SEC. Investors and security holders are urged to read these documents free of charge on the SEC’s web site at http://www.sec.gov. The Company undertakes no obligation to update any such forward-looking statements after the date hereof to conform to actual results or changes in expectations, except as required by law.
+AgEagle Aerial Systems Contacts
 
-For more information, please contact:
-ZW Data Action Technologies Inc.
-Email: wanmeng@chinanet-online.com
-Phone: +86 13522831530
+Investor Relations Email: UAVS@ageagle.com
+
+Media Email: media@ageagle.com
+
+
 
 Primary Logo
+
 Tags:
-COMMUNICATION SERVICES
-0
+INDUSTRIALS
+
+ 0
 Related News
-
-    @ the Bell: TSX scores another fresh record high
-    11 minutes ago
-    @ the Bell: TSX rally takes a pause
-    23 hours ago
-    @ the Bell: TSX rises as gold continues record run
-    2 days ago
-
+@ the Bell: TSX keeps holding pattern as Mideast conflicts intensify
+18 hours ago
+@ the Bell: TSX flat as market figures out latest Middle East conflict
+1 day ago
+@ the Bell: TSX and Wall Street September trading defies the odds
+2 days ago
 Recent U.S. Press Releases
-
-    Cue Biopharma Announces Proposed Public Offering
-    1 minute ago
-    BIOTECHNOLOGY | HEALTHCARE
-    Wabash and Steel Dynamics Forge 10-Year Strategic Partnership
-    11 minutes ago
-    INDUSTRIALS
-    Scorpio Tankers Inc. Announces Purchase of Call Options by the President of the Company
-    12 minutes ago
-    OIL-GAS-MIDSTREAM | ENERGY
-
+HII Hosts Chairman of the Joint Chiefs of Staff at Newport News Shipbuilding
+12 minutes ago
+AEROSPACE-DEFENSE | INDUSTRIALS
+Compass Therapeutics Announces Upcoming Poster Presentation at the 39th Society for Immunotherapy...
+25 minutes ago
+BIOTECHNOLOGY | HEALTHCARE
+Apollo Silver Announces Upsizing of Private Placement
+53 minutes ago
+SILVER
 More Press Releases »
 Featured News Links
-Where to find Educational Resources for Beginner and Intermediate Investors
-Red Cloud: Fall Mining Showcase 2024 Starting October 16 – Register Here
-Topgolf Takes Fortnite by Storm – Gamers Can Now Swing, Score, and Win Big in the Virtual World
-
+Uranium Powerhouse: The $126M Deal to Supercharge U.S. Nuclear Production
+Eastern Platinum Announces Commissioning Of PGM Processing Facility At Crocodile River Mine
+Alphamin Announces Interim Dividend increase, Record Quarterly Tin Production & Q3 EBITDA Guidance of US$91.5 Million
 Get the latest news and updates from Stockhouse on social media
 
-    facebook twitter linkedin 
-
+facebook twitter linkedin
 Follow STOCKHOUSE Today
 
+USER FEEDBACK SURVEY
+×
+Be the voice that helps shape the content on site!
+At Stockhouse, we’re committed to delivering content that matters to you. Your insights are key in shaping our strategy. Take a few minutes to share your feedback and help influence what you see on our site!
+
+The Market Online in partnership with Stockhouse
+Later
+Participate
+Not interested
+
 Stockhouse Logo
-
-    About Us
-    Careers
-    Contribute
-    Contact Us
-
+About Us
+Careers
+Contribute
+Contact Us
 Support
-
-    Help
-
+Help
 Legal
-
-    Disclaimer
-    Privacy Policy
-
-Follow Us
+Disclaimer
+Privacy Policy
+Follow Us   
 Stockhouse.com is owned by Stockhouse Publishing Ltd. © 2019 Stockhouse Publishing Ltd. All rights reserved. Financial Market Data powered by Refinitiv. All rights reserved. Quotes and other data delayed by 15 minutes for NYSE/AMEX/NASDAQ, 20 minutes for TSX/TSX-V unless otherwise indicated. Google Play and the Google Play logo are trademarks of Google Inc. The Apple logo and iTunes are trademarks of Apple Inc., registered in the U.S. and other countries.
 '''
     print(summarize_article(article))

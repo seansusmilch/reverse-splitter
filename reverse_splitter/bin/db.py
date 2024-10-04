@@ -1,6 +1,8 @@
 from pocketbase import PocketBase
 import os
+import cachetools.func
 
+@cachetools.func.ttl_cache(maxsize=1, ttl=1209600)
 def auth_pb():
     client = PocketBase(os.environ.get('PB_URL'))
     user = client.collection('users').auth_with_password(os.environ.get('PB_USER'), os.environ.get('PB_PASS'))
