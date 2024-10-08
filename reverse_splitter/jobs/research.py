@@ -13,34 +13,34 @@ def research_job():
     for split in upcoming_splits:
         try:
             # Check if record already exists
-            db.get_pb().collection('reverse_splits').get_first_list_item(f'stock = "{split[0]}" && effective_date = "{split[4]}"')
-            log.debug(f'Skipping {split[0]} on {split[4]}: already exists')
+            db.get_pb().collection('reverse_splits').get_first_list_item(f'stock = "{split.ticker}" && effective_date = "{split.effective_date}"')
+            log.debug(f'Skipping {split.ticker} on {split.effective_date}: already exists')
             continue
         except:
             # No record found
             pass
         
-        press = press_finder.find_press_release(f'{split[0]} reverse split press release')
+        press = press_finder.find_press_release(f'{split.ticker} reverse split press release')
         if not press:
-            log.warning(f'No press release found for {split[0]} on {split[4]}')
+            log.warning(f'No press release found for {split.ticker} on {split.effective_date}')
             return
         
         real_url, article = press
         summary = summarizer.summarize_article(article)
-        log.debug(f'Summary for {split[0]} on {split[4]} - "{summary[0:10]}..."')
+        log.debug(f'Summary for {split.ticker} on {split.effective_date} - "{summary[0:10]}..."')
         
         split_record = {
-            'stock': split[0],
-            'exchange': split[1],
-            'company_name': split[2],
-            'split_ratio': split[3],
-            'effective_date': split[4],
+            'stock': split.ticker,
+            'exchange': split.exchange,
+            'company_name': split.company_name,
+            'split_ratio': split.ratio,
+            'effective_date': split.effective_date,
             'press_release': real_url,
             'summary': summary,
         }
     
         db.get_pb().collection('reverse_splits').create(split_record)
-        log.info(f'Record for {split[0]} on {split[4]} created')
+        log.info(f'Record for {split.ticker} on {split.effective_date} created')
 
 
 

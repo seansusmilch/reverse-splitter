@@ -3,6 +3,12 @@ from urllib.parse import urlparse, parse_qs
 import requests
 from datetime import datetime, timedelta
 import cachetools.func
+from reverse_splitter.bin.types import Split
+from typing import List
+import os
+import reverse_splitter.bin.logger as logger
+
+log = logger.setup_logger('Yahoo')
 
 @cachetools.func.ttl_cache(maxsize=1, ttl=3600)
 def get_symbols_index():
@@ -49,12 +55,11 @@ def get_symbol_from_index(symbol):
     }
     return symbol_info
 
-def get_raw_data(start_day=datetime.today()):
-    '''
-    Need to start on a sunday
+def get_raw_data(start_day=datetime.today()) -> List[Split]:
+    '''Need to start on a sunday
     '''
     playwright = sync_playwright().start()
-    browser = playwright.chromium.launch(headless=False)
+    browser = playwright.chromium.launch(headless=os.name != 'nt')
     context = browser.new_context()
     page = context.new_page()
 
@@ -63,7 +68,6 @@ def get_raw_data(start_day=datetime.today()):
     page.wait_for_selector('#fin-cal-events')
     
     clickable_days = len(page.query_selector_all('#fin-cal-events > div > ul > li > a'))
-    print(clickable_days)
     
     all_table_data = []
     
@@ -99,7 +103,7 @@ def get_raw_data(start_day=datetime.today()):
     browser.close()
     playwright.stop()
     
-    return all_table_data
+    return [Split(*split) for split in all_table_data]
     
     
 def get_sundays(today=datetime.today()):
@@ -107,13 +111,16 @@ def get_sundays(today=datetime.today()):
     next_sunday = sunday + timedelta(days=7)
     return sunday.date(), next_sunday.date()
 
-def scrape_yahoo():
+def scrape_yahoo() -> List[Split]:
     all_splits = []
     for sunday in get_sundays():
         all_splits += get_raw_data(sunday)
+        log.debug('Got data for the week of', sunday)
         
-    reverse_splits = [split for split in all_splits if split[3].startswith('1.00')]
+    reverse_splits = [split for split in all_splits if split.ratio.startswith('1.00')]
+    
     return reverse_splits
     
 if __name__ == '__main__':
-    scrape_yahoo()
+    for split in scrape_yahoo():
+        print(split)
