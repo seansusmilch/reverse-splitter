@@ -115,7 +115,7 @@ def scrape_yahoo() -> List[Split]:
     all_splits = []
     for sunday in get_sundays():
         all_splits += get_raw_data(sunday)
-        log.debug('Got data for the week of', sunday)
+        log.debug(f'Got data for the week of {sunday}')
         
     reverse_splits = [split for split in all_splits if split.ratio.startswith('1.00')]
     
