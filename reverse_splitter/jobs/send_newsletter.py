@@ -21,7 +21,7 @@ def create_newsletter(splits):
     
     last_prices = price.get_last_prices([split.stock for split in splits])
     for split in splits:
-        split.last_price = last_prices.get(split.stock, 'Error')
+        split.last_price = last_prices.get(split.stock)
     
     template = env.get_template('newsletter.html')
     rendered = template.render(splits=splits, date=date_string)

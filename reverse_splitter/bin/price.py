@@ -8,7 +8,10 @@ def get_last_prices(tickers=[]):
     data = yf.download(tickers, rounding=True, period='1d', prepost=False)
     res = {}
     for t in tickers:
-        res[t] = str(data['Close'][t].iloc[0])
+        try:
+            res[t] = str(data['Close'][t].iloc[0])
+        except:
+            res[t] = 'Error'
         
     return res
         
