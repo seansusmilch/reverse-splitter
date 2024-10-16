@@ -23,8 +23,16 @@ if (Astro.request.method === 'POST') {
   const email = formData.get('email');
 
   console.log(`New subscriber: ${name} <${email}>`);
-  await pb.collection('new_subscribers').create({ name, email });
-  message = 'Thanks for subscribing!';
+  try {
+    await pb.collection('new_subscribers').create({ name, email });
+    message = { type: 'success', text: 'Thanks for subscribing!' };
+  } catch (e) {
+    console.error(e);
+    message = {
+      type: 'error',
+      text: 'Error subscribing. Make sure both name and email fields are filled out properly.',
+    };
+  }
 }
 ---
 
@@ -39,32 +47,60 @@ if (Astro.request.method === 'POST') {
         upcoming stock reverse splits.
       </p>
     </div>
+    <div class='flex flex-col items-center'>
+      <form
+        method='POST'
+        class='w-full max-w-prose flex flex-col gap-4 instructions'
+      >
+        {
+          message && (
+            <p
+              class:list={[
+                'p-2 rounded-lg',
+                message.type === 'success' && 'bg-green-700',
+                message.type === 'error' && 'bg-red-700',
+              ]}
+            >
+              {message.text}
+            </p>
+          )
+        }
+        <div class='flex flex-col gap-2'>
+          <label for='name'>Name:</label>
+          <input
+            class='p-1 bg-black rounded-lg'
+            name='name'
+            type='text'
+            required
+          />
+        </div>
+        <div class='flex flex-col gap-2'>
+          <label for='email'>Email:</label>
+          <input
+            class='p-1 bg-black rounded-lg'
+            name='email'
+            type='email'
+            required
+          />
+        </div>
+        <button class='bg-purple-700 p-1 rounded-lg' type='submit'>
+          Subscribe
+        </button>
+      </form>
 
-    <form method='POST' class='flex flex-col gap-4 instructions'>
-      {message && <p class='bg-green-700 p-2 rounded-lg'>{message}</p>}
-      <div class='flex flex-col gap-2'>
-        <label for='name'>Name:</label>
-        <input class='p-1 bg-black rounded-lg' name='name' type='text' />
+      <div
+        class:list={[
+          'w-full',
+          'prose max-w-prose',
+          'dark:prose-invert',
+          'prose-a:text-blue-600',
+          'prose-p:text-justify',
+          'prose-img:rounded-xl',
+          'prose-img:shadow-lg',
+        ]}
+      >
+        <Description />
       </div>
-      <div class='flex flex-col gap-2'>
-        <label for='email'>Email:</label>
-        <input class='p-1 bg-black rounded-lg' name='email' type='email' />
-      </div>
-      <button class='bg-purple-700 p-1 rounded-lg' type='submit'>
-        Subscribe
-      </button>
-    </form>
-
-    <div
-      class:list={[
-        'prose',
-        'dark:prose-invert',
-        'prose-a:text-blue-600',
-        'prose-p:text-justify',
-        'prose-img:rounded-xl',
-      ]}
-    >
-      <Description />
     </div>
   </main>
 </Layout>
