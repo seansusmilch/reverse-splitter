@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import PocketBase from 'pocketbase';
 import { PB_URL, PB_USER, PB_PASS } from 'astro:env/server';
-import { Content as Description } from '../content/reverse-split-description.md';
+import { Content as Description } from '../content/homepage/reverse-split-description.md';
 
 let message;
 if (Astro.request.method === 'POST') {

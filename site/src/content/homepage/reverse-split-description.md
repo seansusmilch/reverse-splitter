@@ -10,7 +10,8 @@ coming to any sort of financial decisions.
 
 An action a company takes to increase their stock price.
 
-You won't make millions overnight off this...
+**You won't make millions overnight off this...**
+
 I like to compare it to picking up a $5 bill off the ground. Takes little to
 no effort, very little risk, for a decent payout relative to the amount of time it takes.
 
