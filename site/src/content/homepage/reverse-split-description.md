@@ -17,8 +17,8 @@ no effort, very little risk, for a decent payout relative to the amount of time 
 
 ## How do I profit off of them?
 
-By buying 1 share before the effective date of the
-reverse split that will be rounding up fractional shares
+By **buying 1 share before the effective date** of the
+reverse split that will be **rounding up** fractional shares
 
 ## How do I know which companies will be rounding up fractional shares?
 
