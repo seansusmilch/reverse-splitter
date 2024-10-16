@@ -1,8 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Info from '../components/Info.astro';
 import PocketBase from 'pocketbase';
 import { PB_URL, PB_USER, PB_PASS } from 'astro:env/server';
+import { Content as Description } from '../content/reverse-split-description.md';
 
 let message;
 if (Astro.request.method === 'POST') {
@@ -55,7 +55,17 @@ if (Astro.request.method === 'POST') {
       </button>
     </form>
 
-    <Info />
+    <div
+      class:list={[
+        'prose',
+        'dark:prose-invert',
+        'prose-a:text-blue-600',
+        'prose-p:text-justify',
+        'prose-img:rounded-xl',
+      ]}
+    >
+      <Description />
+    </div>
   </main>
 </Layout>
 <script>
