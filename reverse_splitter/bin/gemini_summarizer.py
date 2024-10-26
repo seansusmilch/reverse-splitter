@@ -12,11 +12,12 @@ PROMPT = ' '.join([
     # "Use simple language.",
     "Read carefully.",
     "Do not hallucinate.",
-    # "Keep it concise.",
+    "Do not make any assumptions.",
     # "Do not include any information that is not in the article.",
     # "Do not include any examples.",
-    # "Do not include any explanations."
-    # "Start the summary with a yes or no answer to the question: 'Will fractional shares be rounded up?'",
+    # "Do not include any explanations.",
+    "If the article mentions fractional shares, include any stipulations or conditions regarding the rounding up of fractional shares in the summary.",
+    "Start the summary with a 'Yes', 'No', or 'Unknown' answer, followed by a period, to the question: 'Will fractional shares be rounded up?'",
 ])
 
 def summarize_article(article:str):
