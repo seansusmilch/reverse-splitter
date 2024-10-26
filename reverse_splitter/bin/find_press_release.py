@@ -12,7 +12,8 @@ site_blacklist = [
     'reddit.com',
     'www.nasdaqtrader.com',
     'seekingalpha.com',
-    'x.com'
+    'x.com',
+    'sec.gov'
 ]
 
 def is_blacklisted(url: str):
@@ -65,7 +66,7 @@ def find_press_release(query:str):
 
 if __name__ == '__main__':
     import reverse_splitter.bin.gemini_summarizer as gemini
-    url, article = find_press_release('"NCNC" reverse split fractional')
+    url, article = find_press_release('"NA" reverse stock split "fractional"')
     print(url)
     print(len(article))
     

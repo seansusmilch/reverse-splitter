@@ -15,7 +15,9 @@ def scrape_hedgefollow() -> List[Split]:
     page.goto('https://hedgefollow.com/upcoming-stock-splits.php', wait_until='domcontentloaded')
 
     # Get the table
-    table = page.query_selector('table#latest_splits')
+    table = page.wait_for_selector('table#latest_splits')
+    # Wait for the table to load
+    page.wait_for_selector('table#latest_splits tbody tr')
     rawTableData = table.evaluate('(tbl) => [...tbl.rows].map(r => [...r.cells].map(c => c.textContent))')
 
     browser.close()
@@ -32,3 +34,9 @@ def scrape_hedgefollow() -> List[Split]:
         )
 
     return splits
+
+
+if __name__ == '__main__':
+    for split in scrape_hedgefollow():
+        print(split)
+        pass
