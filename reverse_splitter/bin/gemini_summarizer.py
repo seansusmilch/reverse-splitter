@@ -6,10 +6,9 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 
 PROMPT = ' '.join([
     "-- This is an article about a stock reverse split.\n",
-    "--- Summarize the information about handling fractional shares into 40 words or less.",
-    # "If the article says fractional shares will be rounded up to the nearest whole share, respond with 'Fractional shares will be rounded up.'",
-    # "If the article does not contain information about fractional shares, respond with 'No information about fractional shares.'",
-    # "Use simple language.",
+    # "--- Summarize the information about handling fractional shares into 40 words or less.",
+    "--- Will the fractional shares be rounded up to the next whole share? Answer at the beginning with a yes, or no.",
+    "Limit your response to 40 words or less.",
     "Read carefully.",
     "Do not hallucinate.",
     "Do not make any assumptions.",
@@ -17,7 +16,7 @@ PROMPT = ' '.join([
     # "Do not include any examples.",
     # "Do not include any explanations.",
     "If the article mentions fractional shares, include any stipulations or conditions regarding the rounding up of fractional shares in the summary.",
-    "Start the summary with a 'Yes', 'No', or 'Unknown' answer, followed by a period, to the question: 'Will fractional shares be rounded up?'",
+    # "Start the summary with a 'Yes', 'No', or 'Unknown' answer, followed by a period, to the question: 'Does the article explicitly mention that fractional shares will be rounded up to the next whole share?'",
 ])
 
 def summarize_article(article:str):
