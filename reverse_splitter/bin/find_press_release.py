@@ -13,7 +13,8 @@ site_blacklist = [
     'www.nasdaqtrader.com',
     'seekingalpha.com',
     'x.com',
-    'sec.gov'
+    'sec.gov',
+    'stackexchange.com'
 ]
 
 def is_blacklisted(url: str):

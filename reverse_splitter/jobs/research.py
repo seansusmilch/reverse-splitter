@@ -20,7 +20,7 @@ def research_job():
             # No record found
             pass
         
-        press = press_finder.find_press_release(f'"{split.ticker}" reverse stock split "fractional"')
+        press = press_finder.find_press_release(f'"{split.ticker}" reverse stock split press release "fractional" {split.effective_date.split('-')[0]}')
         if not press:
             log.warning(f'No press release found for {split.ticker} on {split.effective_date}')
             return
