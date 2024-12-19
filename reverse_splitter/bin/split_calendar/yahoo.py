@@ -1,4 +1,5 @@
-from playwright.sync_api import sync_playwright
+import asyncio
+from playwright.async_api import async_playwright
 from urllib.parse import urlparse, parse_qs
 import requests
 from datetime import datetime, timedelta
@@ -58,59 +59,64 @@ def get_symbol_from_index(symbol):
     return symbol_info
 
 
-def get_raw_data(start_day=datetime.today()) -> List[Split]:
+async def get_raw_data(start_day=datetime.today()) -> List[Split]:
     """Need to start on a sunday"""
-    playwright = sync_playwright().start()
-    browser = playwright.chromium.launch(headless=os.name != "nt")
-    context = browser.new_context()
-    page = context.new_page()
+    async with async_playwright() as playwright:
+        browser = await playwright.chromium.launch(headless=os.name != "nt")
+        context = await browser.new_context()
+        page = await context.new_page()
 
-    # TODO: This will also get previous splits that I don't want
-    page.goto(
-        f"https://finance.yahoo.com/calendar/splits?day={start_day.strftime('%Y-%m-%d')}",
-        wait_until="commit",
-    )
-    page.wait_for_selector("#fin-cal-events")
-
-    clickable_days = len(page.query_selector_all("#fin-cal-events > div > ul > li > a"))
-
-    all_table_data = []
-
-    for idx in range(clickable_days):
-        previous_url = page.url
-        page.query_selector_all("#fin-cal-events > div > ul > li > a")[idx].click()
-        page.wait_for_function(
-            "(prev_url) => window.location.href !== prev_url", arg=previous_url
+        # TODO: This will also get previous splits that I don't want
+        await page.goto(
+            f"https://finance.yahoo.com/calendar/splits?day={start_day.strftime('%Y-%m-%d')}",
+            wait_until="commit",
         )
-        page.wait_for_selector("#cal-res-table")
+        await page.wait_for_selector("#fin-cal-events")
 
-        parsed_url = urlparse(page.url)
-        day_param = parse_qs(parsed_url.query).get("day", [None])[0]
-
-        table = page.query_selector("#cal-res-table table")
-        tableData = table.evaluate(
-            "(tbl) => [...tbl.rows].map(r => [...r.cells].map(c => c.textContent))"
+        clickable_days = len(
+            await page.query_selector_all("#fin-cal-events > div > ul > li > a")
         )
 
-        # ['Symbol', 'Company', 'Payable on', 'Optionable?', 'Ratio']
-        good_data = []
-        for row in tableData:
-            symbol_info = get_symbol_from_index(row[0])
-            if not symbol_info:
-                continue
+        all_table_data = []
 
-            symbol = row[0]
-            company_name = row[1]
-            exchange = symbol_info["exchange"]
-            effective_date = day_param
-            ratio = row[4]
+        for idx in range(clickable_days):
+            previous_url = page.url
+            await page.query_selector_all("#fin-cal-events > div > ul > li > a")[
+                idx
+            ].click()
+            await page.wait_for_function(
+                "(prev_url) => window.location.href !== prev_url", arg=previous_url
+            )
+            await page.wait_for_selector("#cal-res-table")
 
-            good_data.append([symbol, exchange, company_name, ratio, effective_date])
+            parsed_url = urlparse(page.url)
+            day_param = parse_qs(parsed_url.query).get("day", [None])[0]
 
-        all_table_data += good_data
+            table = await page.query_selector("#cal-res-table table")
+            tableData = await table.evaluate(
+                "(tbl) => [...tbl.rows].map(r => [...r.cells].map(c => c.textContent))"
+            )
 
-    browser.close()
-    playwright.stop()
+            # ['Symbol', 'Company', 'Payable on', 'Optionable?', 'Ratio']
+            good_data = []
+            for row in tableData:
+                symbol_info = get_symbol_from_index(row[0])
+                if not symbol_info:
+                    continue
+
+                symbol = row[0]
+                company_name = row[1]
+                exchange = symbol_info["exchange"]
+                effective_date = day_param
+                ratio = row[4]
+
+                good_data.append(
+                    [symbol, exchange, company_name, ratio, effective_date]
+                )
+
+            all_table_data += good_data
+
+        await browser.close()
 
     return [Split(*split) for split in all_table_data]
 
@@ -123,11 +129,11 @@ def get_sundays(today=datetime.today()):
     return sunday.date(), next_sunday.date()
 
 
-def scrape_yahoo() -> List[Split]:
+async def scrape_yahoo() -> List[Split]:
     try:
         all_splits = []
         for sunday in get_sundays():
-            all_splits += get_raw_data(sunday)
+            all_splits += await get_raw_data(sunday)
             log.debug(f"Got data for the week of {sunday}")
 
         reverse_splits = [
@@ -141,5 +147,5 @@ def scrape_yahoo() -> List[Split]:
 
 
 if __name__ == "__main__":
-    for split in scrape_yahoo():
+    for split in asyncio.run(scrape_yahoo()):
         print(split)

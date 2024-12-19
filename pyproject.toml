@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "reverse-splitter"
+version = "0.1.0"
+description = ""
+authors = ["seansusmilch <seantsusmilch@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+playwright = "1.47.0"
+google-generativeai = "0.8.2"
+pocketbase = "0.14.0"
+apscheduler = "3.10.4"
+jinja2 = "3.1.4"
+requests = "2.32.3"
+requests-random-user-agent = "2023.2.15"
+beautifulsoup4 = "4.12.3"
+brevo-python = "1.1.2"
+yfinance = "0.2.43"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

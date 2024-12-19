@@ -1,42 +1,46 @@
 # https://hedgefollow.com/upcoming-stock-splits.php
 
-from playwright.sync_api import sync_playwright
+from playwright.async_api import async_playwright
 from typing import List
 from reverse_splitter.bin.types import Split
 import os
 
-def scrape_hedgefollow() -> List[Split]:
-    '''['RYAAY', 'NASDAQ', 'Ryanair Holdings plc', '5:2', '2024-09-30', '2024-09-13']'''
-    playwright = sync_playwright().start()
-    browser = playwright.chromium.launch(headless=os.name != 'nt')
-    context = browser.new_context()
-    page = context.new_page()
 
-    page.goto('https://hedgefollow.com/upcoming-stock-splits.php', wait_until='domcontentloaded')
+async def scrape_hedgefollow() -> List[Split]:
+    """['RYAAY', 'NASDAQ', 'Ryanair Holdings plc', '5:2', '2024-09-30', '2024-09-13']"""
 
-    # Get the table
-    table = page.wait_for_selector('table#latest_splits')
-    # Wait for the table to load
-    page.wait_for_selector('table#latest_splits tbody tr')
-    rawTableData = table.evaluate('(tbl) => [...tbl.rows].map(r => [...r.cells].map(c => c.textContent))')
+    async with async_playwright() as playwright:
+        browser = await playwright.chromium.launch(headless=os.name != "nt")
+        context = await browser.new_context()
+        page = await context.new_page()
 
-    browser.close()
-    playwright.stop()
-    
+        await page.goto(
+            "https://hedgefollow.com/upcoming-stock-splits.php",
+            wait_until="domcontentloaded",
+        )
+
+        # Get the table
+        table = await page.wait_for_selector("table#latest_splits")
+        # Wait for the table to load
+        await page.wait_for_selector("table#latest_splits tbody tr")
+        rawTableData = await table.evaluate(
+            "(tbl) => [...tbl.rows].map(r => [...r.cells].map(c => c.textContent))"
+        )
+
+        await browser.close()
+
     tableData = list(filter(lambda row: len(row) == 6, rawTableData))
-    
+
     splits = []
     for row in tableData:
-        splits.append(
-            Split(
-                row[0], row[1], row[2], row[3], row[4]
-            )
-        )
+        splits.append(Split(row[0], row[1], row[2], row[3], row[4]))
 
     return splits
 
 
-if __name__ == '__main__':
-    for split in scrape_hedgefollow():
+if __name__ == "__main__":
+    import asyncio
+
+    for split in asyncio.run(scrape_hedgefollow()):
         print(split)
         pass
