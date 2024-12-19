@@ -20,11 +20,11 @@ def get_next_splits():
     # make set to filter out duplicates
     hedge = asyncio.run(hedgefollow.scrape_hedgefollow())
     brief = briefing.scrape_briefing()
-    # hoo = yahoo.scrape_yahoo()
+    hoo = asyncio.run(yahoo.scrape_yahoo())
     log.debug(f"Found {len(hedge)} splits from HedgeFollow")
     log.debug(f"Found {len(brief)} splits from Briefing")
     # log.debug(f'Found {len(hoo)} splits from Yahoo')
-    all_splits = set().union(hedge, brief)
+    all_splits = set().union(hedge, brief, hoo)
 
     reverse_splits = list(
         filter(
